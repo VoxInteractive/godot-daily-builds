@@ -28,7 +28,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential mingw-w64 pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev yasm
-          python3 -m pip install scons
+          python3 -m pip install --no-cache-dir scons
 
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v14
