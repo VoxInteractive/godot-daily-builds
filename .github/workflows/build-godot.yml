@@ -10,7 +10,7 @@ on:
         default: '4.5'
         type: string
       include_limboai:
-        description: 'Whether to include LimboAI module'
+        description: 'Include the LimboAI module'
         required: false
         default: false
         type: boolean
