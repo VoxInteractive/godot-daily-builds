@@ -50,6 +50,10 @@ jobs:
           ref: ${{ inputs.limboai_version }}
           path: godot/modules/limboai
 
+      - name: Switch to POSIX MinGW32
+        shell: bash
+        run: sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+
       - name: Setup Direct3D12 Dependencies
         shell: bash
         working-directory: godot
