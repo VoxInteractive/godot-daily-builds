@@ -6,7 +6,7 @@ on:
       godot_version:
         description: 'Godot version/branch to build'
         required: false
-        default: '4.5'
+        default: 'master'
         type: string
       include_limboai:
         description: 'Include the LimboAI module'
