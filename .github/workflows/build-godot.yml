@@ -30,6 +30,10 @@ jobs:
           sudo apt-get install -y build-essential mingw-w64 pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev yasm
           python3 -m pip install --no-cache-dir scons
 
+      - name: Switch to POSIX MinGW32
+        shell: bash
+        run: sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v14
         with:
@@ -49,10 +53,6 @@ jobs:
           repository: limboai/limboai
           ref: ${{ inputs.limboai_version }}
           path: godot/modules/limboai
-
-      - name: Switch to POSIX MinGW32
-        shell: bash
-        run: sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
 
       - name: Setup Direct3D12 Dependencies
         shell: bash
