@@ -70,7 +70,7 @@ jobs:
           COMMON_BUILD_OPTS+=("optimize=speed")
           COMMON_BUILD_OPTS+=("lto=full")
           
-          X86_64_OPTS=("ccflags=-march=x86-64-v3")
+          X86_64_OPTS=("ccflags=-march=x86-64-v2")
 
           #
           ### Editor
