@@ -26,10 +26,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [linuxbsd, macos, windows]
+        platform: [macos, windows]
         include:
-          - platform: linuxbsd
-            runner: ubuntu-latest
           - platform: macos
             runner: macos-15-intel
           - platform: windows
