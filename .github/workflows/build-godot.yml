@@ -79,6 +79,13 @@ jobs:
           limboai_version: ${{ inputs.limboai_version }}
           platform: ${{ matrix.platform }}
 
+      - name: Generate Random Encryption Key
+        run: |
+          KEY=$(openssl rand -hex 32)
+          echo "SCRIPT_AES256_ENCRYPTION_KEY=$KEY" >> $GITHUB_ENV
+          mkdir -p godot/bin
+          echo "$KEY" > godot/bin/encryption-key.txt
+
       - name: Build Export Template
         shell: bash
         working-directory: godot
