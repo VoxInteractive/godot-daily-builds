@@ -20,26 +20,32 @@ runs:
         sudo apt-get install -y build-essential pkg-config yasm
         python3 -m pip install --no-cache-dir --break-system-packages scons
 
+
     - name: Install Dependencies (Linux)
       if: inputs.platform == 'linuxbsd'
       shell: bash
       run: sudo apt-get install -y libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev
 
-    - name: Install Cross-Compilation Dependencies (Windows)
-      if: inputs.platform == 'windows'
-      shell: bash
-      run: |
-        sudo apt-get install -y mingw-w64
-        sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
 
-    - name: Setup Direct3D12 Dependencies (Windows)
-      if: inputs.platform == 'windows'
+    - name: Setup Dependencies (macOS)
+      if: inputs.platform == 'macos'
       shell: bash
       working-directory: godot
-      run: python misc/scripts/install_d3d12_sdk_windows.py
+      run: misc/scripts/install_vulkan_sdk_macos.sh
+
 
     - name: Setup Emscripten (Web)
       if: inputs.platform == 'web'
       uses: mymindstorm/setup-emsdk@v14
       with:
         version: ${{ inputs.emsdk_version }}
+
+
+    - name: Setup Dependencies (Windows)
+      if: inputs.platform == 'windows'
+      shell: bash
+      working-directory: godot
+      run: |
+        sudo apt-get install -y mingw-w64
+        sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+        python misc/scripts/install_d3d12_sdk_windows.py

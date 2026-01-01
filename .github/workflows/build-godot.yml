@@ -22,11 +22,18 @@ on:
 jobs:
   build-editor:
     name: Editor (${{ matrix.platform }})
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        platform: [linuxbsd, windows]
+        platform: [linuxbsd, macos, windows]
+        include:
+          - platform: linuxbsd
+            runner: ubuntu-latest
+          - platform: macos
+            runner: macos-15-intel
+          - platform: windows
+            runner: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
 
@@ -46,7 +53,11 @@ jobs:
         shell: bash
         working-directory: godot
         run: |
-          scons platform=${{ matrix.platform }} production=yes optimize=speed lto=full ccflags=-march=x86-64-v2
+          BUILD_OPTS="platform=${{ matrix.platform }} production=yes optimize=speed lto=full ccflags=-march=x86-64-v2"
+          if [[ "${{ matrix.platform }}" == "macos" ]]; then
+            BUILD_OPTS="$BUILD_OPTS generate_bundle=yes"
+          fi
+          scons $BUILD_OPTS
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v6
@@ -58,11 +69,20 @@ jobs:
 
   build-export-template:
     name: Template (${{ matrix.platform }})
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        platform: [linuxbsd, windows, web]
+        platform: [linuxbsd, macos, windows, web]
+        include:
+          - platform: linuxbsd
+            runner: ubuntu-latest
+          - platform: macos
+            runner: macos-15
+          - platform: windows
+            runner: ubuntu-latest
+          - platform: web
+            runner: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
 
@@ -149,12 +169,18 @@ jobs:
           BUILD_OPTS+=("module_webxr_enabled=no")
           BUILD_OPTS+=("module_zip_enabled=no")
 
-          if [[ "${{ matrix.platform }}" == "web" ]]; then
-            BUILD_OPTS+=("dlink_enabled=yes")
-          else
-            BUILD_OPTS+=("arch=x86_64")
-            BUILD_OPTS+=("ccflags=-march=x86-64-v2")
-          fi
+          case "${{ matrix.platform }}" in
+            macos)
+              BUILD_OPTS+=("generate_bundle=yes")
+              ;;
+            web)
+              BUILD_OPTS+=("dlink_enabled=yes")
+              ;;
+            *)
+              BUILD_OPTS+=("arch=x86_64")
+              BUILD_OPTS+=("ccflags=-march=x86-64-v2")
+              ;;
+          esac
           
           scons "${BUILD_OPTS[@]}"
 
