@@ -31,7 +31,7 @@ jobs:
           - platform: macos
             runner: macos-15-intel
           - platform: windows
-            runner: windows-11
+            runner: windows-latest
     steps:
       - uses: actions/checkout@v6
 
@@ -78,7 +78,7 @@ jobs:
           - platform: macos
             runner: macos-15
           - platform: windows
-            runner: windows-11
+            runner: windows-latest
           - platform: web
             runner: ubuntu-latest
     steps:

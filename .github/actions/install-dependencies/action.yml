@@ -48,6 +48,7 @@ runs:
 
     - name: Install Scons (Windows)
       if: inputs.platform == 'windows'
+      shell: cmd
       run: python -m pip install --no-cache-dir scons
 
     - name: Setup MSVC (Windows)
@@ -60,5 +61,6 @@ runs:
 
     - name: Setup Direct3D12 (Windows)
       if: inputs.platform == 'windows'
+      shell: cmd
       working-directory: godot
       run: python misc/scripts/install_d3d12_sdk_windows.py
