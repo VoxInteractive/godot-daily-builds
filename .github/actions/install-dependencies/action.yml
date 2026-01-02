@@ -24,7 +24,7 @@ runs:
     - name: Install SCons (Linux & macOS)
       if: inputs.platform != 'windows'
       shell: bash
-      run: python3 -m pip install --no-cache-dir --user --break-system-packages scons
+      run: python3 -m pip install --no-cache-dir --break-system-packages scons
 
 
     - name: Setup Dependencies (macOS)
