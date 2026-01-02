@@ -13,23 +13,18 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install SCons (Unix)
-      if: inputs.platform != 'windows'
-      shell: bash
-      run: python3 -m pip install --no-cache-dir --break-system-packages scons
-
-    - name: Install Common Dependencies
-      if: inputs.platform != 'macos'
-      shell: bash
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential pkg-config yasm
-
-
     - name: Install Dependencies (Linux)
       if: inputs.platform == 'linuxbsd'
       shell: bash
-      run: sudo apt-get install -y libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential pkg-config yasm libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev
+
+
+    - name: Install SCons (Linux & macOS)
+      if: inputs.platform != 'windows'
+      shell: bash
+      run: python3 -m pip install --no-cache-dir --user --break-system-packages scons
 
 
     - name: Setup Dependencies (macOS)
