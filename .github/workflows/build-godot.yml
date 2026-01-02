@@ -98,6 +98,7 @@ jobs:
 
       # https://docs.godotengine.org/en/latest/engine_details/development/compiling/compiling_with_script_encryption_key.html
       - name: Setup Encryption With Randomly Generated Key
+        shell: bash
         run: |
           KEY=$(openssl rand -hex 32)
           echo "SCRIPT_AES256_ENCRYPTION_KEY=$KEY" >> $GITHUB_ENV
