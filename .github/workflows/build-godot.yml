@@ -18,6 +18,8 @@ on:
         required: false
         default: 'master'
         type: string
+  schedule:
+    - cron: '0 22 * * *'
 
 jobs:
   build-editor:
